@@ -17,7 +17,7 @@ class App:
     def __init__(self):
         self.window = tk.Tk()
         self.window.title('Cat')
-        self.window.geometry("500x500")
+        self.window.geometry("400x300")
         self.create_widgets()  # Вызов функции создания вкладок
         # Вкладки
         
@@ -26,7 +26,7 @@ class App:
         self.window['padx'] = 10
         self.window['pady'] = 10
         # Размер вкладок в окне     
-        self.notebook = ttk.Notebook(self.window, width=500, height=500)
+        self.notebook = ttk.Notebook(self.window, width=370, height=250)
 
         # Создание виджетов на вкладках
         tab_enc = Enc(self.notebook)        
@@ -37,7 +37,7 @@ class App:
         self.notebook.add(tab_desc, text="Дешифрование")
         self.notebook.add(tab_info, text="О программе")
         self.notebook.place(y=2, x=2)
-        #self.pack()
+        
 
 if __name__ == '__main__':
     program = App()
