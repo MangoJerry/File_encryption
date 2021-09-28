@@ -36,8 +36,8 @@ class App:
         self.notebook.add(tab_enc, text="Шифование")
         self.notebook.add(tab_desc, text="Дешифрование")
         self.notebook.add(tab_info, text="О программе")
-        self.notebook.grid(row=1, column=1)
-
+        self.notebook.place(y=2, x=2)
+        #self.pack()
 
 if __name__ == '__main__':
     program = App()
