@@ -7,6 +7,7 @@
 from tkinter import Tk, ttk
 import tkinter as tk
 
+
 # Импорт модулей, реализующих вкладки
 from encryption_tab import Encryption as Enc
 from descryption_tab import Descryption as Desc
@@ -25,6 +26,7 @@ class App:
         # Отступы 
         self.window['padx'] = 10
         self.window['pady'] = 10
+        self.window.iconbitmap('icon_cat.ico')
         # Размер вкладок в окне     
         self.notebook = ttk.Notebook(self.window, width=370, height=250)
 
