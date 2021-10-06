@@ -1,29 +1,59 @@
 import os
-import random
 
 
 class Decoder:
-    def __init__(self, key_cypher):
-        self.key_cypher = key_cypher
-        # Условия выбора метода декодировки
-        if key_cypher[-1] == '1':
-            self.Dec_AveMe()
-        elif key_cypher[-1] == '2':
-            self.Dec_Сaesar_Сycle()
-        else:
-            self.Dec_Multi_Cucle()
+    def __init__(self, key):
+        self.key = key
+        if int(key) > 159:
+            self.key = int(key) % 159
+        # Здесь нужно указать на имя файла, которое у Вас, Маргаритка, на вкладке кодирования
+        file_cypher = 'text_1_cypher.txt'
+        self.file_cypher = file_cypher
 
     def Dec_AveMe(self):
         '''
-        Каждый элемент ключа смещается на 3 символа по таблице ASCII
-        :return: ->list
-            Ключ_шифр + №_шифратора
+            Каждый элемент текста смещается на key символов по таблице ASCII.
+            Адекватные символы находятся на позициях: 32-126, 1040-1103.
+            От сюда следует зациклить перенос ползунка таблицы на 32 при
+            индексе > 1103 и на 1040 при индексе > 123, чтобы индекс не попал
+            в интервалы ...-31, 124-1039, 1104-...
+        :return: ->file.txt
+            Название файла "Имя_файла_текса" + "_Name_шифратора"
         '''
-        key = []
-        for element in range(len(key_cypher) - 1):
-            index = ord(key_cypher[element]) - 3  # суть шифра
-            key.append(chr(index))
-        self.Save_file(key)
+        # Проверка на наличие файла
+        if os.path.exists(self.file_cypher.replace('.txt', '_recypher_AveMe.txt')):
+            temp_file = self.file_cypher.replace('.txt', '_recypher_AveMe.txt')
+            os.remove(temp_file)
+        # Создание расшифрованного файла с именем метода
+        file_recypher = self.file_cypher.replace('.txt', '_recypher_AveMe.txt')
+        key = int(self.key)
+        # Открытие и работа с файлом_текстом
+        with open(self.file_cypher, 'r', encoding='utf-8') as file_text_cypher:
+            # Пробежка по всем строкам файла
+            for line in file_text_cypher:
+                # Строка_дешифр для записи построчно в новый файл + ее обнуление
+                recypher = ''
+                # Пробежка по каждому элементу строки
+                for index in range(len(line)):
+                    # Проверка на локализацию ползунка и перенос при необходимости
+                    if ord(line[index]) - key > 126 and \
+                            ord(line[index]) - key < 1040:
+                        index_recypher = ord(line[index]) - key - 913  # суть шифра
+                        recypher += chr(index_recypher)
+                    elif ord(line[index]) - int(key) < 32:
+                        index_recypher = ord(line[index]) - key + 1072  # суть шифра
+                        recypher += chr(index_recypher)
+                    else:
+                        index_recypher = ord(line[index]) - key  # суть шифра
+                        recypher += chr(index_recypher)
+                # Удаление символа переноса в конце каждой строки текста
+                if ord(line[index]) == 10:
+                    recypher = recypher[:-1]
+                print(recypher)
+                # Запись строки в файл
+                with open(file_recypher, "a", encoding="utf-8") as file_write:
+                    file_write.write(recypher + '\n')
+
 
     def Dec_Сaesar_Сycle(self):
         '''
@@ -118,16 +148,17 @@ class Decoder:
             file_write.write(str_dec)
 
 
-full_path = 'key_1_cypher.txt'
+full_path = 'key_1.txt'
 '''
 При наличии пути к файлу (вне текущего каталога)
 раскомментить 3 строки ниже и удалить строку выше
 dir = ''C:/Users/xxx''
 key_cypher_file = ''key_1_cypher.txt''
 full_path = os.path.join(dir, key_cypher_file)
-Добавить "import os" в начале 
+Добавить "import os" в начале
+Сделать так для обоих файлов full_path_text = 'text_1.txt'
 '''
-with open(full_path, 'r', encoding='utf-8') as key_cypher_file:
-    key_cypher = key_cypher_file.readline()
-# os.remove(full_path)
-temp = Decoder(key_cypher)
+with open(full_path, 'r', encoding='utf-8') as key_file:
+    key = key_file.readline()
+temp = Decoder(key)
+temp.Dec_AveMe()

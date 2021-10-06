@@ -1,10 +1,12 @@
-import random, os
+import os
 
 
 class Encryption:
     def __init__(self, key):
-        self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
+        #self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
         self.key = key
+        if int(key) > 159:
+            self.key = int(key) % 159
         full_path_text = 'text_1.txt'  # Здесь нужно указать на файл_текст интерфейса
         self.full_path_text = full_path_text
 
@@ -12,19 +14,20 @@ class Encryption:
         '''
         Для дешифратора:
             Каждый элемент текста смещается на key символов по таблице ASCII.
-            Адекватные символы находятся на позициях: 32-123, 1040-1103.
+            Адекватные символы находятся на позициях: 32-126, 1040-1103.
             От сюда следует зациклить перенос ползунка таблицы на 32 при
             индексе > 1103 и на 1040 при индексе > 123, чтобы индекс не попал
             в интервалы ...-31, 124-1039, 1104-...
-        :return: ->file
+        :return: ->file.txt
             Название файла "Имя_файла_текса" + "_cypher.txt"
         '''
         # Проверка на наличие файла
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
             temp_file = self.full_path_text.replace('.txt', '_cypher.txt')
             os.remove(temp_file)
-        # Создание нового шифра (удаляя предыдущий при его наличии)
+        # Создание нового шифра (удаляя предыдущий при его наличии - условие выше)
         file_cypher = self.full_path_text.replace('.txt', '_cypher.txt')
+        key = int(self.key)
         # Открытие и работа с файлом_текстом
         with open(self.full_path_text, 'r', encoding='utf-8') as file_text:
             # Пробежка по всем строкам файла
@@ -34,20 +37,23 @@ class Encryption:
                 # Пробежка по каждому элементу строки
                 for index in range(len(line)):
                     # Проверка на локализацию ползунка и перенос при необходимости
-                    if ord(line[index]) + int(key) > 126 and \
-                            ord(line[index]) + int(key) < 1040:
-                        index_cypher = ord(line[index]) + int(key) + 914  # суть шифра
+                    if ord(line[index]) + key > 126 and \
+                            ord(line[index]) + key < 1040:
+                        index_cypher = ord(line[index]) + key + 913  # суть шифра
                         cypher += chr(index_cypher)
                     elif ord(line[index]) + int(key) > 1103:
-                        index_cypher = ord(line[index]) + int(key) - 1073  # суть шифра
+                        index_cypher = ord(line[index]) + key - 1072  # суть шифра
                         cypher += chr(index_cypher)
                     else:
-                        index_cypher = ord(line[index]) + int(key)  # суть шифра
+                        index_cypher = ord(line[index]) + key  # суть шифра
                         cypher += chr(index_cypher)
+                # Удаление символа переноса в конце каждой строки текста
+                if ord(line[index]) == 10:
+                    cypher = cypher[:-1]
                 print(cypher)
                 # Запись строки в файл
                 with open(file_cypher, "a", encoding="utf-8") as file_write:
-                    file_write.write(cypher)
+                    file_write.write(cypher + '\n')
 
 
     def Сaesar_Сycle(self):
@@ -197,6 +203,6 @@ full_path = os.path.join(dir, key_file)
 with open(full_path_key, 'r', encoding='utf-8') as file_key:
     key = file_key.readline()
 temp = Encryption(key)
-#  temp.AveMe()
-temp.Сaesar_Сycle()
+temp.AveMe()
+# temp.Сaesar_Сycle()
 # temp.Multi_Cucle()
