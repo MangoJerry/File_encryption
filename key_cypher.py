@@ -1,11 +1,16 @@
 import random, os
-
+#from encryption_tab import Encryption as Enc
 
 class Encryption:
-    def __init__(self, key):
-        self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
+    def __init__(self, full_path_text, key):
         self.key = key
-        full_path_text = 'text_1.txt'  # Здесь нужно указать на файл_текст интерфейса
+        #self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
+        
+        #full_path_text = 'text_1.txt'  # Здесь нужно указать на файл_текст интерфейса
+        #with open('path_cypher.txt','r',encoding='utf-8' ) as path_cyph:
+            #full_path_text = path_cyph.read()
+            #print(full_path_text)
+            
         self.full_path_text = full_path_text
 
     def AveMe(self):
@@ -20,10 +25,14 @@ class Encryption:
             Название файла "Имя_файла_текса" + "_cypher.txt"
         '''
         # Проверка на наличие файла
+        print(self.key)
+        print(self.full_path_text)
+        
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
             temp_file = self.full_path_text.replace('.txt', '_cypher.txt')
             os.remove(temp_file)
         # Создание нового шифра (удаляя предыдущий при его наличии)
+        
         file_cypher = self.full_path_text.replace('.txt', '_cypher.txt')
         # Открытие и работа с файлом_текстом
         with open(self.full_path_text, 'r', encoding='utf-8') as file_text:
@@ -34,20 +43,21 @@ class Encryption:
                 # Пробежка по каждому элементу строки
                 for index in range(len(line)):
                     # Проверка на локализацию ползунка и перенос при необходимости
-                    if ord(line[index]) + int(key) > 126 and \
-                            ord(line[index]) + int(key) < 1040:
-                        index_cypher = ord(line[index]) + int(key) + 914  # суть шифра
+                    if ord(line[index]) + int(self.key) > 126 and \
+                    ord(line[index]) + int(self.key) < 1040:
+                        index_cypher = ord(line[index]) + int(self.key) + 914  # суть шифра
                         cypher += chr(index_cypher)
-                    elif ord(line[index]) + int(key) > 1103:
-                        index_cypher = ord(line[index]) + int(key) - 1073  # суть шифра
+                    elif ord(line[index]) + int(self.key) > 1103:
+                        index_cypher = ord(line[index]) + int(self.key) - 1073  # суть шифра
                         cypher += chr(index_cypher)
                     else:
-                        index_cypher = ord(line[index]) + int(key)  # суть шифра
+                        index_cypher = ord(line[index]) + int(self.key)  # суть шифра
                         cypher += chr(index_cypher)
                 print(cypher)
                 # Запись строки в файл
-                with open(file_cypher, "a", encoding="utf-8") as file_write:
+                with open('file_cypher.txt', "a", encoding="utf-8") as file_write:
                     file_write.write(cypher)
+                    
 
 
     def Сaesar_Сycle(self):
@@ -119,9 +129,9 @@ class Encryption:
                     # Если циклический индекс упал до 0, то пора начинать сначала
                     if tumbler == 0 and cycle_index == 0:
                         tumbler = 1
-                print(cypher)
+                #print(cypher)
                 # Запись строки в файл
-                with open(file_cypher, "a", encoding="utf-8") as file_write:
+                with open('file_cypher.txt', "a", encoding="utf-8") as file_write:
                     file_write.write(cypher)
 
 #------------------Multi_Cucle метод не готов---------------------
@@ -173,18 +183,18 @@ class Encryption:
         self.Save_file(cypher)
 
 
-    @staticmethod
-    def Cheak_Key(test_key):
-        for index in range(len(test_key)):
-            if ord(test_key[index]) > 57 or ord(test_key[index]) < 48:
-                raise TypeError("Ключ должен быть целым числом")
-        if int(test_key) <= 0 or int(test_key) > 150:
-            raise ValueError("Ключ должен быть числом от 0 до 150. "
-                             "Большее значение даст нерациональную нагрузку"
-                             " на ЦП, а алгоритм зациклен на 150 единицах")
+   # @staticmethod
+   # def Cheak_Key(test_key):
+   #     for index in range(len(test_key)):
+   #         if ord(test_key[index]) > 57 or ord(test_key[index]) < 48:
+   #             raise TypeError("Ключ должен быть целым числом")
+   #     if int(test_key) <= 0 or int(test_key) > 150:
+   #         raise ValueError("Ключ должен быть числом от 0 до 150. "
+    #                         "Большее значение даст нерациональную нагрузку"
+    #                         " на ЦП, а алгоритм зациклен на 150 единицах")
 
 
-full_path_key = 'key_1.txt'
+#full_path_key = 'key_1.txt'
 '''
 При наличии пути к файлу (вне текущего каталога)
 раскомментить 3 строки ниже и удалить строку выше
@@ -194,9 +204,9 @@ full_path = os.path.join(dir, key_file)
 Добавить "import os" в начале.
 Сделать так для обоих файлов full_path_text = 'text_1.txt'
 '''
-with open(full_path_key, 'r', encoding='utf-8') as file_key:
-    key = file_key.readline()
-temp = Encryption(key)
+#with open('key.txt', 'r', encoding='utf-8') as file_key:
+#    key = file_key.readline()
+#temp = Encryption(key)
 #  temp.AveMe()
-temp.Сaesar_Сycle()
+#temp.Сaesar_Сycle()
 # temp.Multi_Cucle()
