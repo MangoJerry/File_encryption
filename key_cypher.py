@@ -1,29 +1,14 @@
-<<<<<<< HEAD
 import random, os
-#from encryption_tab import Encryption as Enc
 
+         
 class Encryption:
     def __init__(self, full_path_text, key):
-        self.key = key
-        #self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
-        
-        #full_path_text = 'text_1.txt'  # Здесь нужно указать на файл_текст интерфейса
-        #with open('path_cypher.txt','r',encoding='utf-8' ) as path_cyph:
-            #full_path_text = path_cyph.read()
-            #print(full_path_text)
-            
-=======
-import os
-
-
-class Encryption:
-    def __init__(self, key):
         #self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
         self.key = key
-        if int(key) > 159:
-            self.key = int(key) % 159
-        full_path_text = 'text_1.txt'  # Здесь нужно указать на файл_текст интерфейса
->>>>>>> c2870f55e1ebb7cda007d6d84719faa2cc5affda
+        if key > 159:
+            self.key = key % 159
+        with open ('key.txt', 'w', encoding='utf-8') as key_file:
+            key_file.write(str(key))
         self.full_path_text = full_path_text
 
     def AveMe(self):
@@ -41,17 +26,14 @@ class Encryption:
         print(self.key)
         print(self.full_path_text)
         
+        # Проверка на наличие файла
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
             temp_file = self.full_path_text.replace('.txt', '_cypher.txt')
             os.remove(temp_file)
-<<<<<<< HEAD
-        # Создание нового шифра (удаляя предыдущий при его наличии)
-        
-=======
         # Создание нового шифра (удаляя предыдущий при его наличии - условие выше)
->>>>>>> c2870f55e1ebb7cda007d6d84719faa2cc5affda
         file_cypher = self.full_path_text.replace('.txt', '_cypher.txt')
-        key = int(self.key)
+        # key - итак типа int
+        key = self.key
         # Открытие и работа с файлом_текстом
         with open(self.full_path_text, 'r', encoding='utf-8') as file_text:
             # Пробежка по всем строкам файла
@@ -61,17 +43,6 @@ class Encryption:
                 # Пробежка по каждому элементу строки
                 for index in range(len(line)):
                     # Проверка на локализацию ползунка и перенос при необходимости
-<<<<<<< HEAD
-                    if ord(line[index]) + int(self.key) > 126 and \
-                    ord(line[index]) + int(self.key) < 1040:
-                        index_cypher = ord(line[index]) + int(self.key) + 914  # суть шифра
-                        cypher += chr(index_cypher)
-                    elif ord(line[index]) + int(self.key) > 1103:
-                        index_cypher = ord(line[index]) + int(self.key) - 1073  # суть шифра
-                        cypher += chr(index_cypher)
-                    else:
-                        index_cypher = ord(line[index]) + int(self.key)  # суть шифра
-=======
                     if ord(line[index]) + key > 126 and \
                             ord(line[index]) + key < 1040:
                         index_cypher = ord(line[index]) + key + 913  # суть шифра
@@ -81,21 +52,14 @@ class Encryption:
                         cypher += chr(index_cypher)
                     else:
                         index_cypher = ord(line[index]) + key  # суть шифра
->>>>>>> c2870f55e1ebb7cda007d6d84719faa2cc5affda
                         cypher += chr(index_cypher)
                 # Удаление символа переноса в конце каждой строки текста
                 if ord(line[index]) == 10:
                     cypher = cypher[:-1]
                 print(cypher)
                 # Запись строки в файл
-<<<<<<< HEAD
-                with open('file_cypher.txt', "a", encoding="utf-8") as file_write:
-                    file_write.write(cypher)
-                    
-=======
                 with open(file_cypher, "a", encoding="utf-8") as file_write:
                     file_write.write(cypher + '\n')
->>>>>>> c2870f55e1ebb7cda007d6d84719faa2cc5affda
 
 
     def Сaesar_Сycle(self):
@@ -242,17 +206,17 @@ full_path = os.path.join(dir, key_file)
 Добавить "import os" в начале.
 Сделать так для обоих файлов full_path_text = 'text_1.txt'
 '''
-<<<<<<< HEAD
+#<<<<<<< HEAD
 #with open('key.txt', 'r', encoding='utf-8') as file_key:
 #    key = file_key.readline()
 #temp = Encryption(key)
 #  temp.AveMe()
 #temp.Сaesar_Сycle()
-=======
-with open(full_path_key, 'r', encoding='utf-8') as file_key:
-    key = file_key.readline()
-temp = Encryption(key)
-temp.AveMe()
+#=======
+#with open(full_path_key, 'r', encoding='utf-8') as file_key:
+#    key = file_key.readline()
+#temp = Encryption(key)
+#temp.AveMe()
 # temp.Сaesar_Сycle()
->>>>>>> c2870f55e1ebb7cda007d6d84719faa2cc5affda
+#>>>>>>> c2870f55e1ebb7cda007d6d84719faa2cc5affda
 # temp.Multi_Cucle()

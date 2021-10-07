@@ -19,7 +19,7 @@ class Encryption(tk.Frame):
         self.label_select.place(x=10, y=40)
         
         self.combo = Combobox(self)
-        self.combo['values'] = ('Цезарь', 'Мультицезарь')
+        self.combo['values'] = ('Цезарь', 'Циклический цезарь')
         self.combo.place(x=110, y=40)
         
         self.label_brose = tk.Label(self, text='Исходный текст')
@@ -58,10 +58,4 @@ class Encryption(tk.Frame):
         self.text_brose.insert(0, fname)
         return
 
-    def entry_get_brose(self):
-        key = self.key.get()
-        print(key)
-        with open ('key.txt', 'w', encoding='utf-8') as key_file:
-            key_file.write(key)
-        return 
     
