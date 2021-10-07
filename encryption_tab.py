@@ -22,15 +22,12 @@ class Encryption(tk.Frame):
         self.combo = Combobox(self)
         self.combo['values'] = ('Цезарь', 'Циклический цезарь')
         self.combo.place(x=110, y=40)
-        self.combo.bind("<<ComboboxSelected>>", self.select_cyph)
+        # При выборе метода шифрования происходит событие event и вызывается функция select_cyph
+        # Метод bind() позволяет связывать виджет, собитие и действие
+        self.combo.bind("<<ComboboxSelected>>", self.select_cyph) 
         
         self.label_brose = tk.Label(self, text='Исходный текст')
         self.label_brose.place(x=10, y=80)
-        
-        #-----------------test--------------
-        ##self.label_test = tk.Label(self, text=f'метод:{self.select_cyph()}')
-        #self.label_test.place(x=10, y=160)
-        #-----------------test---------
         
         # Поле ввода пути к файлу с исходным текстом для шифрования
         self.path_text = tk.StringVar()
@@ -51,29 +48,22 @@ class Encryption(tk.Frame):
         # Тестовая кнопка
         self.btn_keygen = tk.Button(self, text='Применить', command=self.select_cyph)
         self.btn_keygen.place(x=250, y=120)
-        
-        if self.combo.current() == -1:
-            self.btn_encrypt = tk.Button(self, text='Зашифровать', 
-                command=lambda: Enc(self.path_text.get(), self.key_var.get()).AveMe())
-            self.btn_encrypt.place(x=120, y=180)
-        else:
-            self.btn_encrypt = tk.Button(self, text='Зашифровать', 
-                command=lambda: Enc(self.path_text.get(), self.key_var.get()).Сaesar_Сycle())
-            self.btn_encrypt.place(x=120, y=180)
-        
-        
-    
+
+    # Функция выбора метода
     def select_cyph(self, event):
         if self.combo.current() == 0:
             self.btn_encrypt = tk.Button(self, text='Зашифровать', 
-                command=lambda: Enc(self.path_text.get(), self.key_var.get()).AveMe())
+                command=lambda: Enc(self.path_text.get(), 
+                                    self.key_var.get(), self.combo.current()+1).AveMe())
             self.btn_encrypt.place(x=120, y=180)
         elif self.combo.current() == 1:
             self.btn_encrypt = tk.Button(self, text='Зашифровать', 
-                command=lambda: Enc(self.path_text.get(), self.key_var.get()).Сaesar_Сycle())
+                command=lambda: Enc(self.path_text.get(),
+                                self.key_var.get(), self.combo.current()+1).Сaesar_Сycle())
             self.btn_encrypt.place(x=120, y=180)
         return 
-
+    
+    # Функция выбора пути к файлу через диалогое окно
     def load_file(self):
         fname = askopenfilename(filetypes=(("Text files", "*.txt"),
                                            ("All files", "*.*")))

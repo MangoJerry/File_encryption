@@ -2,7 +2,7 @@ import random, os
 
          
 class Encryption:
-    def __init__(self, full_path_text, key):
+    def __init__(self, full_path_text, key, number_cyph):
         #self.Cheak_Key(key)  # Вызов метода_проверки корректности ключа
         self.key = key
         if key > 159:
@@ -10,6 +10,7 @@ class Encryption:
         with open ('key.txt', 'w', encoding='utf-8') as key_file:
             key_file.write(str(key))
         self.full_path_text = full_path_text
+        self.number_cyph = number_cyph
 
     def AveMe(self):
         '''
@@ -26,6 +27,7 @@ class Encryption:
         print(self.key)
         print(self.full_path_text)
         print('Цезарь')
+        print(self.number_cyph)
         
         # Проверка на наличие файла
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
@@ -60,7 +62,7 @@ class Encryption:
                 print(cypher)
                 # Запись строки в файл
                 with open(file_cypher, "a", encoding="utf-8") as file_write:
-                    file_write.write(cypher + '\n')
+                    file_write.write(cypher + str(self.number_cyph) + '\n')
 
 
     def Сaesar_Сycle(self):
@@ -82,6 +84,7 @@ class Encryption:
         print(self.full_path_text)
         key = self.key
         print('Цикл')
+        print(self.number_cyph)
         # Проверка на наличие файла
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
             temp_file = self.full_path_text.replace('.txt', '_cypher.txt')
@@ -139,7 +142,7 @@ class Encryption:
                 print(cypher)
                 # Запись строки в файл
                 with open(file_cypher, "a", encoding="utf-8") as file_write:
-                    file_write.write(cypher)
+                    file_write.write(cypher + str(self.number_cyph) + '\n')
 
 #------------------Multi_Cucle метод не готов---------------------
     def Multi_Cucle(self):
