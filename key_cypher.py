@@ -25,6 +25,7 @@ class Encryption:
         # Проверка на наличие файла
         print(self.key)
         print(self.full_path_text)
+        print('Цезарь')
         
         # Проверка на наличие файла
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
@@ -77,6 +78,10 @@ class Encryption:
         :return: ->file
             Название файла "Имя_файла_текса" + "_cypher.txt"
         '''
+        print(self.key)
+        print(self.full_path_text)
+        key = self.key
+        print('Цикл')
         # Проверка на наличие файла
         if os.path.exists(self.full_path_text.replace('.txt', '_cypher.txt')):
             temp_file = self.full_path_text.replace('.txt', '_cypher.txt')
@@ -131,9 +136,9 @@ class Encryption:
                     # Если циклический индекс упал до 0, то пора начинать сначала
                     if tumbler == 0 and cycle_index == 0:
                         tumbler = 1
-                #print(cypher)
+                print(cypher)
                 # Запись строки в файл
-                with open('file_cypher.txt', "a", encoding="utf-8") as file_write:
+                with open(file_cypher, "a", encoding="utf-8") as file_write:
                     file_write.write(cypher)
 
 #------------------Multi_Cucle метод не готов---------------------
