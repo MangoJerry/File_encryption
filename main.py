@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-
 @author: ritak
 """
 
 from tkinter import Tk, ttk
 import tkinter as tk
-
 
 # Импорт модулей, реализующих вкладки
 from encryption_tab import Encryption as Enc
@@ -20,8 +18,8 @@ class App:
         self.window.title('Cat')
         self.window.geometry("400x300")
         self.create_widgets()  # Вызов функции создания вкладок
-        # Вкладки
         
+    # Вкладки
     def create_widgets(self):
         # Отступы 
         self.window['padx'] = 10
